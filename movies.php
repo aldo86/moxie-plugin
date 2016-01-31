@@ -13,15 +13,6 @@
 	    die;
 	}
 
-
-    function moxmov_admin_actions() {
- 		add_options_page("Moxie Movies", "Moxie Movies", 1, "Moxie Movies", "moxmov_admin");
-	}
-
-	function moxmov_admin() {
-    	include('moxie_import_admin.php');
-	}
-
 	// Movies custom post type function
 
 	function custom_post_type() {
@@ -69,6 +60,7 @@
 		register_post_type( 'movies', $args );
 
 	}
+
 	/* Meta data
 	*/
 
@@ -144,34 +136,37 @@
 
 	function endpoint_data() {
  
-    global $wp_query;
+	    global $wp_query;
+	 
+	    $movies_tag = $wp_query->get( 'movies' );
+	 
+	    if ( ! $movies_tag ) {
+	        return;
+	    }
+	 
+	    $movies_data = array();
+	 
+	    $args = array(
+	        'post_type'      => 'movies',
+	        'posts_per_page' => 100,
+	    );
+	    $movies_query = new WP_Query( $args );
+	    if ( $movies_query->have_posts() ) : while ( $movies_query->have_posts() ) : $movies_query->the_post();
+	        // $img_id = get_post_thumbnail_id();
+	        // $img = wp_get_attachment_image_src( $img_id, 'full' );
+	         $movies_data[data][] = array(
+	         	 'id' => get_the_ID(),
+	             'title' => get_the_title(),
+	             'poster_url' => get_post_meta(get_the_ID(), "_poster_url", true),
+	             'rating' => get_post_meta(get_the_ID(), "_rate", true),
+	             'year' => get_post_meta(get_the_ID(), "_year", true),
+	             'short_description' => get_post_meta(get_the_ID(), "_short_desc", true)
+	         );
+	    endwhile; wp_reset_postdata(); endif;
+	 
+	    wp_send_json( $movies_data  );
  
-    $movies_tag = $wp_query->get( 'movies' );
- 
-    if ( ! $movies_tag ) {
-        return;
-    }
- 
-    $movies_data = array();
- 
-    $args = array(
-        'post_type'      => 'movies',
-        'posts_per_page' => 100,
-        //'wds_gif_tag'    => esc_attr( $gif_tag ),
-    );
-    $gif_query = new WP_Query( $args );
-    if ( $gif_query->have_posts() ) : while ( $gif_query->have_posts() ) : $gif_query->the_post();
-        // $img_id = get_post_thumbnail_id();
-        // $img = wp_get_attachment_image_src( $img_id, 'full' );
-         $movies_data[] = array(
-             //'link'  => esc_url( $img[0] ),
-             'title' => get_the_title()
-         );
-    endwhile; wp_reset_postdata(); endif;
- 
-    wp_send_json( $movies_data );
- 
-}
+	}
 	add_action( 'template_redirect', 'endpoint_data' );
 
 
@@ -185,10 +180,8 @@
 	add_action( 'add_meta_boxes', 'movie_desc_box' );
 	add_action( 'add_meta_boxes', 'movie_year_box' );
 	add_action( 'add_meta_boxes', 'movie_rating_box' );
+
 	include('meta.php');
-	//add_action( 'add_meta_boxes', 'add_events_metaboxes' );
-	
-	//add_action('admin_menu', 'moxmov_admin_actions');
 
 	add_shortcode('list-movies', 'list_moxie_movies');
 
