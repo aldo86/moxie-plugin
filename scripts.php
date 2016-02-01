@@ -1,10 +1,10 @@
 <?php
 
 
-
-add_action( 'wp_footer', 'my_scripts' );
-
+//Style support for icons
 echo '<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">';	
+
+//Materialize plugin for frontend styling
 function my_scripts() {
 
 
@@ -21,4 +21,6 @@ function my_scripts() {
 		plugins_url('materialize.min.js', __FILE__)
 	);
 }
+
+add_action( 'wp_footer', 'my_scripts' );
 ?>

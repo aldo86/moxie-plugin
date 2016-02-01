@@ -1,10 +1,11 @@
 <?php
-
+	
+	//rewrite rules to catch endpoint
 	function endpoint(){
 		add_rewrite_tag( '%movies%', '([^&]+)' );
 		add_rewrite_rule( '/movies/movies.json', 'index.php?movies=all', 'top' );
 	}
-
+	//generate json data from db
 	function endpoint_data() {
  
 	    global $wp_query;
@@ -23,8 +24,6 @@
 	    );
 	    $movies_query = new WP_Query( $args );
 	    if ( $movies_query->have_posts() ) : while ( $movies_query->have_posts() ) : $movies_query->the_post();
-	        // $img_id = get_post_thumbnail_id();
-	        // $img = wp_get_attachment_image_src( $img_id, 'full' );
 	         $movies_data[data][] = array(
 	         	 'id' => get_the_ID(),
 	             'title' => get_the_title(),

@@ -18,4 +18,4 @@ unzip content on plugins folder of wordpress installation
 3. Use `[list-movies]` shortcode to display on any post or page
 
 
-> * * Thanks for watching * * 
+> Thanks for watching 

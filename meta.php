@@ -1,6 +1,7 @@
 <?php
 
 
+//Meta data for Movies Post Type and admin panel
 
 function poster_box_content() {
 	// Noncename needed to verify where the data originated

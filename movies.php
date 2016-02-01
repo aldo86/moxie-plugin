@@ -61,7 +61,7 @@
 
 	}
 
-	/* Meta data
+	/* Add meta data boxes
 	*/
 
 	function movie_poster_box() {
@@ -109,17 +109,21 @@
 	    );
 	}
 
+
+	//Shortcode function
+
 	function list_moxie_movies(){
+		//Register Materialize plugin
 		include('scripts.php');
 		try {
-			//echo "Entro";
+
+			//Get json from endpoint and parse it
 		    $json_feed_url = 'http://localhost/wp-plugin/movies/movies.json';
 			$json_feed = wp_remote_get( $json_feed_url );
-			//$output = json_decode( "'".$json_feed."'" ); 
-			$response = wp_remote_retrieve_body( $json_feed );
-			// Decode the json
-			
+			$response = wp_remote_retrieve_body( $json_feed );			
 			$movies = json_decode($response);
+
+			//Output html with Movies data to frontend
 			echo '<div class="row">';
 
 			foreach ($movies->data as $item) {
@@ -175,13 +179,6 @@
 
 	add_shortcode('list-movies', 'list_moxie_movies');
 
-	
-
-	
-
-	
-
-	
 
 
 ?>
