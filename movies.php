@@ -110,7 +110,7 @@
 	}
 
 	function list_moxie_movies(){
-		
+		include('scripts.php');
 		try {
 			//echo "Entro";
 		    $json_feed_url = 'http://localhost/wp-plugin/movies/movies.json';
@@ -120,10 +120,25 @@
 			// Decode the json
 			
 			$movies = json_decode($response);
+			echo '<div class="row">';
+
 			foreach ($movies->data as $item) {
-			   echo $item->title;
+				echo '<div class="col s4 m4">';
+			  	echo '<div class="card">';
+			   	echo '<div class="card-image">';
+		       	echo '<img src="' . $item->poster_url .'" >';
+		       	echo '<span class="card-title">' . $item->title . ' (' . $item->year . ')</span></div>';
+		       	echo '<div class="card-content">';
+		       	echo '<p>' . $item->short_description . '</p>';
+
+		       	for ($x = 0; $x < $item->rating; $x++) {
+				    echo '<i class="tiny material-icons">grade</i>';
+				} 
+		       	echo '</div>';
+		       	echo '</div></div>';
 			}
 			
+			echo '</div>';
 			
 			
 		} catch (Exception $e) {
