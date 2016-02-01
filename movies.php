@@ -137,6 +137,15 @@
 		       	echo '</div>';
 		       	echo '</div></div>';
 			}
+			if (empty($movies)) {
+			   	echo '<div class="col s6 offset-s3">';
+			  	echo '<div class="card">';		       	
+		       	echo '<div class="card-content">';   	
+		       	echo '<span class="card-title">There are no Movies on the database</span>';
+		       	echo '<p>Please add some movies on admin panel!</p>';
+		       	echo '</div>';
+		       	echo '</div></div>';
+			}
 			
 			echo '</div>';
 			
